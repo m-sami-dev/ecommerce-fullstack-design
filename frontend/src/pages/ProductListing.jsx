@@ -24,6 +24,7 @@ export default function ProductListing() {
   const [loading, setLoading] = useState(true)
   const [view, setView] = useState('grid')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [manufacturerOpen, setManufacturerOpen] = useState(false)
 
   const category = searchParams.get('category') || ''
   const search = searchParams.get('search') || ''
@@ -236,6 +237,19 @@ export default function ProductListing() {
               ))}
             </div>
           </FilterBlock>
+
+          <div className="bg-white rounded-xl border border-gray-100 p-4">
+            <button
+              onClick={() => setManufacturerOpen((v) => !v)}
+              className="w-full flex items-center justify-between font-semibold text-gray-800 text-sm"
+            >
+              Manufacturer
+              <span className="text-gray-400">{manufacturerOpen ? '−' : '+'}</span>
+            </button>
+            {manufacturerOpen && (
+              <p className="text-xs text-gray-400 mt-3">No manufacturer filters available yet.</p>
+            )}
+          </div>
 
           <button
             onClick={() => setMobileFiltersOpen(false)}
