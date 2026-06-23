@@ -51,6 +51,9 @@ export default function Login() {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm"
             />
+            <Link to="/forgot-password" className="block text-right text-xs text-brand-600 hover:underline mt-1">
+              Forgot password?
+            </Link>
           </Field>
           <button
             disabled={loading}

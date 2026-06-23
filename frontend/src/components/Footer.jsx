@@ -53,7 +53,7 @@ export default function Footer() {
               <span className="text-lg font-bold text-gray-900">Brand</span>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-4 max-w-xs">
-              Best information about the company gies here but now lorem ipsum is
+              Your one-stop marketplace for quality products, trusted sellers, and unbeatable prices — all in one place.
             </p>
             <div className="flex items-center gap-2">
               <SocialBtn icon={<FaFacebookF size={13} />} />
