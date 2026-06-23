@@ -16,6 +16,14 @@ const NAV_LINKS = [
   { label: 'Menu item', to: '/products' },
 ]
 
+const SHIP_COUNTRIES = [
+  { code: 'de', name: 'Germany' },
+  { code: 'us', name: 'United States' },
+  { code: 'ae', name: 'UAE' },
+  { code: 'gb', name: 'UK' },
+  { code: 'au', name: 'Australia' },
+]
+
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth()
   const { cart } = useCart()
@@ -28,6 +36,7 @@ export default function Navbar() {
   const [helpOpen, setHelpOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [shipOpen, setShipOpen] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState(SHIP_COUNTRIES[0])
   const [userDropOpen, setUserDropOpen] = useState(false)
   const catRef = useRef(null)
   const helpRef = useRef(null)
@@ -299,24 +308,26 @@ export default function Navbar() {
               onClick={() => setShipOpen((v) => !v)}
               className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-brand-600 px-2 py-1 rounded hover:bg-gray-50"
             >
-              <span className="text-lg leading-none">🇩🇪</span>
+              <img
+                src={`https://flagcdn.com/w40/${selectedCountry.code}.png`}
+                alt={selectedCountry.name}
+                className="h-3.5 w-5 rounded-sm object-cover"
+              />
               Ship to
               <FaChevronDown size={9} />
             </button>
             {shipOpen && (
               <div className="absolute top-full right-0 mt-1 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-50 py-1">
-                {[
-                  { flag: '🇩🇪', name: 'Germany' },
-                  { flag: '🇺🇸', name: 'United States' },
-                  { flag: '🇦🇪', name: 'UAE' },
-                  { flag: '🇬🇧', name: 'UK' },
-                  { flag: '🇦🇺', name: 'Australia' },
-                ].map((c) => (
-                  <button key={c.name} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 flex items-center gap-2">
-                    <span className="text-base">{c.flag}</span>{c.name}
+                {SHIP_COUNTRIES.map((c) => (
+                  <button
+                    key={c.code}
+                    onClick={() => { setSelectedCountry(c); setShipOpen(false) }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-brand-50 flex items-center gap-2 ${selectedCountry.code === c.code ? 'text-brand-600 font-medium' : 'text-gray-700'}`}
+                  >
+                    <img src={`https://flagcdn.com/w40/${c.code}.png`} alt={c.name} className="h-3.5 w-5 rounded-sm object-cover" />
+                    {c.name}
                   </button>
                 ))}
-                
               </div>
             )}
           </div>

@@ -16,16 +16,16 @@ const CATEGORY_ICONS = {
 }
 
 const REGIONS = [
-  { name: 'Arabic Emirates', flag: '🇦🇪', url: 'Shopname.ae' },
-  { name: 'Australia', flag: '🇦🇺', url: 'Shopname.com.au' },
-  { name: 'United States', flag: '🇺🇸', url: 'Shopname.us' },
-  { name: 'Russia', flag: '🇷🇺', url: 'Shopname.ru' },
-  { name: 'Italy', flag: '🇮🇹', url: 'Shopname.it' },
-  { name: 'Denmark', flag: '🇩🇰', url: 'Shopname.com.dk' },
-  { name: 'France', flag: '🇫🇷', url: 'Shopname.com.fr' },
-  { name: 'Arabic Emirates', flag: '🇦🇪', url: 'Shopname.ae' },
-  { name: 'China', flag: '🇨🇳', url: 'Shopname.cn' },
-  { name: 'Great Britain', flag: '🇬🇧', url: 'Shopname.co.uk' },
+  { name: 'Arabic Emirates', code: 'ae', url: 'Shopname.ae' },
+  { name: 'Australia', code: 'au', url: 'Shopname.com.au' },
+  { name: 'United States', code: 'us', url: 'Shopname.us' },
+  { name: 'Russia', code: 'ru', url: 'Shopname.ru' },
+  { name: 'Italy', code: 'it', url: 'Shopname.it' },
+  { name: 'Denmark', code: 'dk', url: 'Shopname.com.dk' },
+  { name: 'France', code: 'fr', url: 'Shopname.com.fr' },
+  { name: 'Arabic Emirates', code: 'ae', url: 'Shopname.ae' },
+  { name: 'China', code: 'cn', url: 'Shopname.cn' },
+  { name: 'Great Britain', code: 'gb', url: 'Shopname.co.uk' },
 ]
 
 const SERVICES = [
@@ -380,14 +380,18 @@ export default function Home() {
           <h2 className="text-lg font-bold text-gray-900 mb-4">Suppliers by region</h2>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {REGIONS.map((r, i) => (
-  <div key={i} className="flex items-center gap-2 group cursor-pointer">
-    <span className="text-2xl leading-none">{r.flag}</span>
-    <div>
-      <p className="text-sm text-gray-700 font-medium leading-none">{r.name}</p>
-      <p className="text-xs text-gray-400 mt-0.5">{r.url}</p>
-    </div>
-  </div>
-))}
+              <div key={i} className="flex items-center gap-2 group cursor-pointer">
+                <img
+                  src={`https://flagcdn.com/w40/${r.code}.png`}
+                  alt={r.name}
+                  className="h-5 w-7 rounded-sm object-cover shrink-0"
+                />
+                <div>
+                  <p className="text-sm text-gray-700 font-medium leading-none">{r.name}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{r.url}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
