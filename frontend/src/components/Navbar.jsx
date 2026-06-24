@@ -88,13 +88,13 @@ export default function Navbar() {
           </Link>
 
           {/* Search bar with category dropdown */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl border border-gray-200 rounded-md overflow-hidden">
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl border border-gray-200 rounded-md">
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               type="text"
               placeholder="Search"
-              className="flex-1 px-4 py-2.5 text-sm outline-none text-gray-700 placeholder-gray-400"
+              className="flex-1 px-4 py-2.5 text-sm outline-none text-gray-700 placeholder-gray-400 rounded-l-md"
             />
             {/* Category selector inside search */}
             <div className="relative border-l border-gray-200" ref={catRef}>
@@ -133,7 +133,7 @@ export default function Navbar() {
             {/* Search button */}
             <button
               type="submit"
-              className="bg-brand-500 hover:bg-brand-600 text-white px-5 flex items-center justify-center gap-2 text-sm font-medium transition-colors"
+              className="bg-brand-500 hover:bg-brand-600 text-white px-5 flex items-center justify-center gap-2 text-sm font-medium transition-colors rounded-r-md"
             >
               <FaSearch size={13} />
               Search
@@ -237,7 +237,7 @@ export default function Navbar() {
 
       {/* ── SECOND ROW — Nav links + Language + Ship to ── */}
       <div className="border-t border-gray-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 flex items-center gap-1 h-10 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-4 flex flex-wrap items-center gap-1 min-h-[40px]">
 
           {/* All category with hamburger icon */}
           <Link
