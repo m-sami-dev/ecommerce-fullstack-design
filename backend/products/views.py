@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, filters, generics
+from rest_framework import viewsets, filters, generics, status
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Category, Product, Wishlist, Inquiry, Brand, Feature
+from .models import Category, Product, Wishlist, Inquiry, Brand, Feature, ProductImage
 from .serializers import (
     CategorySerializer, ProductSerializer,
     WishlistSerializer, InquirySerializer,
@@ -82,3 +83,35 @@ class InquiryCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        
+        
+
+class ProductImageUploadView(APIView):
+    """Upload one or more image files for a product (multipart/form-data)."""
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, product_id):
+        product = get_object_or_404(Product, id=product_id)
+        files = request.FILES.getlist('images')
+        if not files:
+            return Response({'detail': 'No image files were provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        existing_count = product.images.count()
+        created = []
+        for i, f in enumerate(files):
+            img = ProductImage.objects.create(product=product, image=f, order=existing_count + i)
+            created.append(img)
+
+        from .serializers import ProductImageSerializer
+        serializer = ProductImageSerializer(created, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ProductImageDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, image_id):
+        image = get_object_or_404(ProductImage, id=image_id)
+        image.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

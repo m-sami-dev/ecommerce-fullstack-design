@@ -1,9 +1,13 @@
 from django.contrib import admin
-from .models import Category, Product, Brand, Feature, Supplier, PriceTier, Wishlist, Inquiry
+from .models import Category, Product, Brand, Feature, Supplier, PriceTier, Wishlist, Inquiry, ProductImage
 
 
 class PriceTierInline(admin.TabularInline):
     model = PriceTier
+    extra = 1
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
     extra = 1
 
 
@@ -38,7 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name', 'description']
     prepopulated_fields = {'slug': ('name',)}
     filter_horizontal = ['features']
-    inlines = [PriceTierInline]
+    inlines = [PriceTierInline, ProductImageInline]
 
 
 @admin.register(Wishlist)

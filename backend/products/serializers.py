@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Category, Product, Wishlist, Inquiry,
-    Brand, Feature, Supplier, PriceTier,
+    Brand, Feature, Supplier, PriceTier, ProductImage,
 )
 
 
@@ -40,6 +40,12 @@ class PriceTierSerializer(serializers.ModelSerializer):
         fields = ['id', 'min_qty', 'max_qty', 'price']
 
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image', 'order']
+        
+        
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True, default=None)
     category_slug = serializers.CharField(source='category.slug', read_only=True, default=None)
@@ -53,6 +59,8 @@ class ProductSerializer(serializers.ModelSerializer):
         source='features', queryset=Feature.objects.all(), many=True, write_only=True, required=False,
     )
     price_tiers = PriceTierSerializer(many=True, read_only=True)
+    images = ProductImageSerializer(many=True, read_only=True)
+    primary_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -64,12 +72,20 @@ class ProductSerializer(serializers.ModelSerializer):
             'condition', 'condition_display', 'features', 'feature_ids',
             'material', 'design', 'customization', 'protection_policy', 'warranty',
             'model_number', 'style', 'certificate', 'size_spec', 'memory_spec',
-            'min_order_qty', 'sold_count', 'price_tiers',
+            'min_order_qty', 'sold_count', 'price_tiers', 'images', 'primary_image',
         ]
         read_only_fields = ['slug', 'created_at']
 
     def get_in_stock(self, obj):
         return obj.stock > 0
+    
+    def get_primary_image(self, obj):
+        first_upload = obj.images.first()
+        if first_upload:
+            request = self.context.get('request')
+            url = first_upload.image.url
+            return request.build_absolute_uri(url) if request else url
+        return obj.image
 
 
 class WishlistSerializer(serializers.ModelSerializer):

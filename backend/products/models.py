@@ -159,3 +159,17 @@ class Inquiry(models.Model):
     def __str__(self):
         target = self.product.name if self.product else (self.item_name or 'General inquiry')
         return f"Inquiry for {target} by {self.user}"
+    
+    
+class ProductImage(models.Model):
+    """Extra uploaded images for a product, shown as a gallery/thumbnail strip."""
+    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='products/gallery/')
+    order = models.PositiveIntegerField(default=0)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f"Image for {self.product.name}"
