@@ -2,57 +2,47 @@
 
 A responsive storefront built with React, React Router, Tailwind CSS, and Axios.
 
+## Live URL
+https://ecommerce-fullstack-design-sooty-five.vercel.app
+
 ## Pages
 
 - **Home** — hero banner, category shortcuts, featured products
 - **Shop / Product listing** — category sidebar, price filter, search, sort, pagination
-- **Product detail** — gallery image, price, stock, quantity picker, related products
-- **Cart** — quantities, remove items, order summary (subtotal/tax/total), demo checkout
-- **Login / Signup** — JWT-based authentication
-- **Admin dashboard** — product table with add/edit/delete (visible only to staff users)
+- **Product detail** — gallery, price, stock, quantity picker
+- **Cart** — quantities, remove items, order summary
+- **Login / Signup** — JWT-based authentication (direct signup, no OTP)
+- **Admin dashboard** — product management (staff users only)
 
-## 1. Install dependencies
+## Local Setup
 
+### 1. Install dependencies
 ```bash
 cd frontend
 npm install
 ```
 
-## 2. Point it at your backend
-
-Copy `.env.example` to `.env` if it doesn't already exist, and confirm the URL
-matches where your Django server is running:
-
+### 2. Configure environment
 ```bash
 cp .env.example .env
 ```
 
-```
-VITE_API_BASE_URL=http://127.0.0.1:8000/api
-```
-
-## 3. Run the dev server
-
+### 3. Run dev server
 ```bash
 npm run dev
 ```
 
-The app runs at `http://localhost:5173`. Make sure the backend (see
-`../backend/README.md`) is running at the same time — the frontend calls it
-directly over `fetch`/axios, there's no proxy needed since the backend has
-CORS enabled for this origin.
+App runs at `http://localhost:5173`.
 
-## Becoming an admin
+## Becoming an Admin
 
-Sign up for an account normally, then in the backend mark that user as staff
-(`python manage.py createsuperuser`, or set `is_staff=True` on an existing
-user in the Django admin at `/admin/`). Staff users see an **Admin** link in
-the navbar that leads to the product management dashboard.
+Sign up normally, then in Django admin set `is_staff=True` on your user. Staff users see an **Admin** link in navbar.
 
-## Build for production
-
+## Production Build
 ```bash
 npm run build
 ```
 
-Output goes to `dist/`.
+## Deployment (Vercel)
+
+Deployed on Vercel. Environment variable set:
