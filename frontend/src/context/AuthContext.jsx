@@ -22,12 +22,12 @@ export function AuthProvider({ children }) {
     return data.user
   }, [applySession])
 
-  // Step 1 of signup: send signup details, triggers an OTP email
   const requestSignupOtp = useCallback(async (payload) => {
-    await api.post('/auth/signup/request-otp/', payload)
-  }, [])
+    const { data } = await api.post('/auth/signup/request-otp/', payload)
+    applySession(data)
+    return data.user
+  }, [applySession])
 
-  // Step 2 of signup: verify the OTP, which creates the account and logs in
   const verifySignupOtp = useCallback(async (email, otp) => {
     const { data } = await api.post('/auth/signup/verify-otp/', { email, otp })
     applySession(data)
